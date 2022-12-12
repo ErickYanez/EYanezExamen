@@ -11,5 +11,6 @@ namespace ML
         public int IdAutor { get; set; }
         public string Nombre { get; set; }
         public string NombreAutor { get; set; }
+        public List<Object> Autores { get; set; }
     }
 }

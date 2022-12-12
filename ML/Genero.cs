@@ -11,5 +11,6 @@ namespace ML
         public int IdGenero { get; set; }
         public string Nombre { get; set; }
         public string NombreGenero { get; set; }
+        public List<Object> Generos { get; set; }
     }
 }

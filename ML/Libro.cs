@@ -15,6 +15,7 @@ namespace ML
         public string FechaPublicacion { get; set; }
         public ML.Editorial Editorial { get; set; }
         public string Edicion { get; set; }
-        public ML.Genero Genero { get; set; }            
+        public ML.Genero Genero { get; set; }
+        public List<Object> Libros { get; set; }
     }
 }

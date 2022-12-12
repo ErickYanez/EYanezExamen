@@ -290,5 +290,198 @@ namespace BL
             }
             return result;
         }
+
+        public static ML.Result GetAllEF()
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (DL_EF.EYañezExamenEntities context = new DL_EF.EYañezExamenEntities())
+                {
+
+                    var execute = context.LibroGetAll().ToList();
+
+                    if (execute.Count > 0)
+                    {
+                        result.Objects = new List<object>();
+
+                        foreach (var item in execute)
+                        {
+
+                            ML.Libro libro = new ML.Libro();
+                            libro.Autor = new ML.Autor();
+                            libro.Editorial = new ML.Editorial();
+                            libro.Genero = new ML.Genero();
+
+                            libro.IdLibro = item.IdLibro;
+                            libro.Nombre = item.Nombre;
+                            libro.Autor.IdAutor = (int)item.IdAutor;
+                            libro.NumeroPaginas = (int)item.NumeroPaginas;
+                            libro.FechaPublicacion = item.FechaPublicacion.ToString();
+                            libro.Editorial.IdEditorial = (int)item.IdEditorial;
+                            libro.Edicion = item.Edicion;
+                            libro.Genero.IdGenero = (int)item.IdGenero;
+
+                            libro.Autor.Nombre = item.NombreAutor;
+                            libro.Editorial.Nombre = item.NombreEditorial;
+                            libro.Genero.Nombre = item.NombreGenero;
+
+                            result.Objects.Add(libro);
+                        }
+                    }
+                }
+                result.Correct = true;
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.Ex = ex;
+                result.Message = "Error al mostrar la lista de libros" + ex;
+            }
+            return result;
+        }
+
+        public static ML.Result GetByIdEF(int IdLibro)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (DL_EF.EYañezExamenEntities context = new DL_EF.EYañezExamenEntities())
+                {
+                    var execute = context.LibroGetById(IdLibro).SingleOrDefault();
+
+                    if (execute != null)
+                    {
+                        ML.Libro libro = new ML.Libro();
+                        libro.Autor = new ML.Autor();
+                        libro.Editorial = new ML.Editorial();
+                        libro.Genero = new ML.Genero();
+
+                        libro.IdLibro = execute.IdLibro;
+                        libro.Nombre = execute.Nombre;
+                        libro.Autor.IdAutor = (int)execute.IdAutor;
+                        libro.NumeroPaginas = (int)execute.NumeroPaginas;
+                        libro.FechaPublicacion = execute.FechaPublicacion.ToString();
+                        libro.Editorial.IdEditorial = (int)execute.IdEditorial;
+                        libro.Edicion = execute.Edicion;
+                        libro.Genero.IdGenero = (int)execute.IdGenero;
+
+                        libro.Autor.Nombre = execute.NombreAutor;
+                        libro.Editorial.Nombre = execute.NombreEditorial;
+                        libro.Genero.Nombre = execute.NombreGenero;
+
+                        result.Object = libro;
+
+                    }
+                }
+                result.Correct = true;
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.Ex = ex;
+                result.Message = "Error al mostrar el libro" + ex;
+            }
+            return result;
+        }
+
+        public static ML.Result AddEF(ML.Libro libro)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (DL_EF.EYañezExamenEntities context = new DL_EF.EYañezExamenEntities())
+                {
+
+                    int execute = context.LibroAdd(
+                        libro.Nombre,
+                        libro.Autor.IdAutor,
+                        libro.NumeroPaginas,
+                        DateTime.Parse(libro.FechaPublicacion.ToString()),
+                        libro.Editorial.IdEditorial,
+                        libro.Edicion,
+                        libro.Genero.IdGenero);
+
+
+                    if (execute > 0)
+                    {
+                        result.Message = "Se inserto el libro correctamente";
+                    }
+                    result.Correct = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.Ex = ex;
+                result.Message = "Error al insertar el libro" + ex;
+            }
+            return result;
+        }
+
+        public static ML.Result UpdateEF(ML.Libro libro)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (DL_EF.EYañezExamenEntities context = new DL_EF.EYañezExamenEntities())
+                {
+                    int execute = context.LibroUpdate(
+                     libro.IdLibro,
+                     libro.Nombre,
+                     libro.Autor.IdAutor,
+                     libro.NumeroPaginas,
+                     DateTime.Parse(libro.FechaPublicacion.ToString()),
+                     libro.Editorial.IdEditorial,
+                     libro.Edicion,
+                     libro.Genero.IdGenero);
+
+
+                    if (execute > 0)
+                    {
+                        result.Message = "Se actualizo el libro correctamente";
+                    }
+                    result.Correct = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.Ex = ex;
+                result.Message = "Error al actualizar el libro" + ex;
+            }
+            return result;
+        }
+
+        public static ML.Result DeleteEF(int IdLibro)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (DL_EF.EYañezExamenEntities context = new DL_EF.EYañezExamenEntities())
+                {
+                    int execute = context.LibroDelete(IdLibro);
+
+
+                    if (execute > 0)
+                    {
+                        result.Message = "Se elimino el libro correctamente";
+                    }
+                    result.Correct = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.Ex = ex;
+                result.Message = "Error al eliminar el libro" + ex;
+            }
+            return result;
+        }
     }
 }
